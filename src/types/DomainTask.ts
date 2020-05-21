@@ -4,6 +4,7 @@ import { InstanceStatus } from 'types/Instance'
 export interface DomainTask {
   instanceId: string
   createdAt: string
-  status: InstanceStatus
+  startedAt: string
+  status: InstanceStatus | 'resolved'
   logs: LogRecord[]
 }

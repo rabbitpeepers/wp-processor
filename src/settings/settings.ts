@@ -8,4 +8,8 @@ if (!mongourl) {
 
 export const settings = {
   mongourl,
+  timeouts: {
+    checkForScheduledEverySec: 5,
+    isTimedOutSec: 30,
+  }
 }
