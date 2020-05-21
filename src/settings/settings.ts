@@ -10,6 +10,7 @@ export const settings = {
   mongourl,
   timeouts: {
     checkForScheduledEverySec: 5,
+    checkForDeployedEverySec: 5,
     isTimedOutSec: 30,
   }
 }
