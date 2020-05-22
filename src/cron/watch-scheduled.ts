@@ -9,7 +9,6 @@ const next = async (): Promise<void> => {
   const n = await DomainTask.findOne({ status: 'scheduled' }).sort({ 'createdAt': 'asc' })
 
   if (!n) {
-    console.log('System is waiting for scheduled item')
     return
   }
 
@@ -43,17 +42,14 @@ const checkForStatus = async (status: InstanceStatus): Promise<boolean> => {
 
 const checkForScheduled = async (): Promise<void> => {
   if (await checkForStatus('failed')) {
-    console.log('System is failed')
     return
   }
 
   if (await checkTimedOut()) {
-    console.log('Processing task is timed out')
     return
   }
 
   if (await checkForStatus('processing')) {
-    console.log('System is busy')
     return
   }
 
