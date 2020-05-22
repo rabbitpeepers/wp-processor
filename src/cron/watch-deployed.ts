@@ -2,6 +2,7 @@ import { logTask } from 'controllers/log-task'
 import { updateTaskStatus } from 'controllers/update-task-status'
 import { settings } from 'settings/settings'
 import { DomainTask } from 'models/DomainTask'
+import { Instance } from 'models/Instance'
 import { isInstanceDeployed } from 'helm-api/is-instance-deployed'
 
 const checkForDeployed = async (): Promise<void> => {
@@ -13,7 +14,8 @@ const checkForDeployed = async (): Promise<void> => {
 
   await logTask(processing, 'Requesting instance deployment status from HELM...')
 
-  const isDeployed = await isInstanceDeployed()
+  const instanceDoc = await Instance.findById(processing.instanceId)
+  const isDeployed = await isInstanceDeployed(instanceDoc)
 
   if (isDeployed) {
     await Promise.all([

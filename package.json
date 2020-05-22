@@ -10,6 +10,7 @@
     "serve": "node -r ts-node/register -r tsconfig-paths/register dist/index.js"
   },
   "dependencies": {
+    "@kubernetes/client-node": "^0.12.0",
     "@types/mongoose": "^5.7.21",
     "dotenv": "^8.2.0",
     "mongoose": "^5.9.15",

@@ -8,11 +8,20 @@ export const runProcessing = async (task: DomainTaskDocument): Promise<void> => 
   await updateTaskStatus(task, 'processing')
   await task.updateOne({ startedAt: new Date() })
 
-  /* SEND TO HELM */
   await logTask(task, 'Sending to HELM operator...')
 
   const instance = await Instance.findById(task.instanceId)
-  await createInstance(instance)
+
+  try {
+    await createInstance(instance)
+  } catch (ex) {
+    console.error(ex)
+    await Promise.all([
+      updateTaskStatus(task, 'failed'),
+      logTask(task, `${ex.message}. ${ex?.body?.message}`)
+    ])
+    return
+  }
 
   await Promise.all([
     updateTaskStatus(task, 'processing'),
