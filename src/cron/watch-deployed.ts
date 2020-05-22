@@ -6,25 +6,27 @@ import { Instance } from 'models/Instance'
 import { isInstanceDeployed } from 'helm-api/is-instance-deployed'
 
 const checkForDeployed = async (): Promise<void> => {
-  const processing = await DomainTask.findOne({ status: 'processing' })
+  const processingItems = await DomainTask.find({ status: 'processing' })
 
-  if (!processing) {
+  if (!processingItems.length) {
     return
   }
 
-  await logTask(processing, 'Requesting instance deployment status from HELM...')
+  await Promise.all(processingItems.map(async (processing) => {
+    await logTask(processing, 'Requesting instance deployment status from HELM...')
 
-  const instanceDoc = await Instance.findById(processing.instanceId)
-  const isDeployed = await isInstanceDeployed(instanceDoc)
+    const instanceDoc = await Instance.findById(processing.instanceId)
+    const isDeployed = await isInstanceDeployed(instanceDoc)
 
-  if (isDeployed) {
-    await Promise.all([
-      updateTaskStatus(processing, 'deployed'),
-      logTask(processing, 'HELM has confirmed: instance deployed!')
-    ])
-  } else {
-    await logTask(processing, 'HELM Response: Instance is not deployed yet.')
-  }
+    if (isDeployed) {
+      await Promise.all([
+        updateTaskStatus(processing, 'deployed'),
+        logTask(processing, 'HELM has confirmed: instance deployed!')
+      ])
+    } else {
+      await logTask(processing, 'HELM Response: Instance is not deployed yet.')
+    }
+  }))
 }
 
 /**
