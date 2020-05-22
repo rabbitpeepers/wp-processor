@@ -2,8 +2,26 @@ import { logTask } from 'controllers/log-task'
 import { updateTaskStatus } from 'controllers/update-task-status'
 import { settings } from 'settings/settings'
 import { DomainTask } from 'models/DomainTask'
+import { InstanceDocument } from 'models/Instance'
 import { Instance } from 'models/Instance'
 import { getInstanceStatus } from 'helm-api/get-instance-status'
+import { sendNotification } from 'controllers/send-notification'
+
+const sendSuccess = async (instance: InstanceDocument): Promise<void> => {
+  return sendNotification({
+    text: `Wordpress instance has been deployed. Instance domain: ${instance.subdomain}.${instance.domain}`,
+    subject: `WP Instance's been deployed!`,
+    instance,
+  })
+}
+
+const sendFailed = async (instance: InstanceDocument): Promise<void> => {
+  return sendNotification({
+    text: `Wordpress instance deployment is failed! Get details via WP Manager logs. Instance domain: ${instance.subdomain}.${instance.domain}.`,
+    subject: `WP Instance's deployment is failed!`,
+    instance,
+  })
+}
 
 const checkForDeployed = async (): Promise<void> => {
   const processingItems = await DomainTask.find({ status: 'processing' })
@@ -23,11 +41,13 @@ const checkForDeployed = async (): Promise<void> => {
         await Promise.all([
           updateTaskStatus(processing, 'deployed'),
           logTask(processing, 'HELM has confirmed: instance deployed!'),
+          sendSuccess(instanceDoc),
         ])
       } else if (['ChartFetchFailed', 'Failed'].indexOf(status) !== -1) {
         await Promise.all([
           updateTaskStatus(processing, 'failed'),
           logTask(processing, `HELM deployment has failed: ${status}`),
+          sendFailed(instanceDoc),
         ])
       } else {
         await logTask(processing, `HELM Response: Instance is not deployed yet. Status: ${status}`)

@@ -16,7 +16,7 @@ export const getInstanceStatus = async (instance: InstanceDocument): Promise<Cha
 }
 
 // @see: https://docs.fluxcd.io/projects/helm-operator/en/stable/references/helmrelease-custom-resource/
-type ChartStatus = 'ChartFetched' |
+export type ChartStatus = 'ChartFetched' |
   'ChartFetchFailed' |
   'Installing' |
   'Upgrading' |
