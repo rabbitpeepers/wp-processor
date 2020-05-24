@@ -19,7 +19,7 @@ export const settings = {
   timeouts: {
     checkForScheduledEverySec: 5,
     checkForDeployedEverySec: 5,
-    isTimedOutSec: 30,
+    isTimedOutSec: 60,
   },
   mariaDb: {
     host: env.APP_MARIADB_DB_HOST,
