@@ -11,4 +11,12 @@ export interface Instance {
     id: string
     email: string
   }
+  meta: {
+    username: string
+    password: string
+    firstName: string
+    lastName: string
+    blogName: string
+    email: string
+  }
 }
