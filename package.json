@@ -14,6 +14,7 @@
     "@types/mongoose": "^5.7.21",
     "@types/nodemailer": "^6.4.0",
     "dotenv": "^8.2.0",
+    "generate-password": "^1.5.1",
     "mongoose": "^5.9.15",
     "nodemailer": "^6.4.6",
     "tsconfig-paths": "^3.9.0",

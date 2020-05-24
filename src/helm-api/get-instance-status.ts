@@ -11,8 +11,8 @@ export const getInstanceStatus = async (instance: InstanceDocument): Promise<Cha
     CRD_PLURAL,
     instanceToHelmName(instance),
   ) as ChartStatusResponse
-  
-  return (res.body?.status?.phase) || 'Failed'
+
+  return (res.body?.status?.phase)
 }
 
 // @see: https://docs.fluxcd.io/projects/helm-operator/en/stable/references/helmrelease-custom-resource/

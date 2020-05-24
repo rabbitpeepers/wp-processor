@@ -20,5 +20,13 @@ export const settings = {
     checkForScheduledEverySec: 5,
     checkForDeployedEverySec: 5,
     isTimedOutSec: 30,
-  }
+  },
+  mariaDb: {
+    host: env.APP_MARIADB_DB_HOST,
+    user: env.APP_MARIADB_ROOT_USER,
+    password: env.APP_MARIADB_ROOT_PASSWORD,
+  },
+  crd: {
+    namespace: env.APP_CRD_IDE_NAMESPACE,
+  },
 }
