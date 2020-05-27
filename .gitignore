@@ -2,3 +2,4 @@ dist/*
 !dist/.gitignore
 .env
 node_modules
+kubernetes/wp-processor/secret.yml

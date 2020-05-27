@@ -1,7 +1,7 @@
-APP_MONGODB_HOST=mongodb://127.0.0.1:27017/wp
-APP_SMTP_URL=smtps://user:pass@host:465
+APP_MONGODB_HOST=mongodb://wp-mongodb:27017/wp
+APP_SMTP_URL=smtp://user:pass@maildev:25
 APP_EMAIL_FROM=support@wp-processor.com
-APP_MARIADB_DB_HOST=maria.db.com
+APP_MARIADB_DB_HOST=wp-mysql
 APP_MARIADB_ROOT_USER=root
 APP_MARIADB_ROOT_PASSWORD=pass
 APP_CRD_IDE_NAMESPACE=test
