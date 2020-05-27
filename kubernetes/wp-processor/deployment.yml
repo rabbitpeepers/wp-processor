@@ -27,7 +27,7 @@ spec:
                 path: .env
       containers:
         - name: wp-manager
-          image: dzirg44/wp-processor:v0.0.1
+          image: dzirg44/wp-processor:v0.0.2
           volumeMounts:
             - name: env
               mountPath: /web/.env

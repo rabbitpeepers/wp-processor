@@ -45,7 +45,27 @@ deploy deploymentset
 
 #### mongodb admin
 
+```js
 use wp;
 db.users.find()
 db.users.find().pretty()
-db.users.update({username: 'dzirg44'}, {\$set : {role: 'admin'}})
+db.users.update({username: 'dzirg44'}, {$set : {role: 'admin'}})
+```
+
+remove tasks
+
+```js
+use wp;
+db.domaintasks.deleteMany({status: "failed"})
+db.getCollection("domaintasks").find({}).pretty();
+db.domaintasks.remove('5ecd6ccc342dc9001cc65038')
+```
+
+remove instances
+
+```js
+use wp;
+db.getCollection("instances").find({}).pretty();
+db.instances.deleteMany({status: "failed"})
+
+```
