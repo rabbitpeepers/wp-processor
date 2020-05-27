@@ -31,6 +31,7 @@ export const wordpressManifest = (instance: InstanceDocument): object => {
         wordpressFirstName: instance.meta.firstName,
         wordpressLastName: instance.meta.lastName,
         wordpressBlogName: instance.meta.blogName,
+        wordpressScheme: 'https',
         // Database Settings
         externalDatabase: {
           host: settings.mariaDb.host,
