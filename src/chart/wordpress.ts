@@ -32,6 +32,15 @@ export const wordpressManifest = (instance: InstanceDocument): object => {
         wordpressLastName: instance.meta.lastName,
         wordpressBlogName: instance.meta.blogName,
         wordpressScheme: 'https',
+        healthcheckHttps: true,
+        readinessProbeHeaders: [{
+          name: "X-Forwarded-Proto",
+          value: "https"
+        }],
+        livenessProbeHeaders: [{
+          name: "X-Forwarded-Proto",
+          value: "https"
+        }],
         // Database Settings
         externalDatabase: {
           host: settings.mariaDb.host,
