@@ -41,7 +41,13 @@ stringData:
     APP_CRD_IDE_NAMESPACE=test
 ```
 
-deploy deploymentset
+after you can create additional resources via
+
+```shell
+  kubectl apply -f kubernetes/wp-processor/
+  #if you wish - maildev
+  kubectl apply -f kubernetes/maildev/
+```
 
 #### mongodb admin
 
@@ -52,20 +58,24 @@ db.users.find().pretty()
 db.users.update({username: 'dzirg44'}, {$set : {role: 'admin'}})
 ```
 
-remove tasks
+#### show tasks
 
 ```js
 use wp;
-db.domaintasks.deleteMany({status: "failed"})
 db.getCollection("domaintasks").find({}).pretty();
-db.domaintasks.remove('5ecd6ccc342dc9001cc65038')
 ```
 
-remove instances
+#### show instances
 
 ```js
 use wp;
 db.getCollection("instances").find({}).pretty();
-db.instances.deleteMany({status: "failed"})
+```
 
+#### remove failed tasks
+
+```js
+use wp;
+db.domaintasks.deleteMany({status: "failed"})
+db.instances.deleteMany({status: "failed"})
 ```
