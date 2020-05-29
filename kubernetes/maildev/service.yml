@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maildev
+  namespace: wp-manager
+spec:
+  selector:
+    app: maildev
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: smtp
+      protocol: TCP
+      port: 25
+      targetPort: 25

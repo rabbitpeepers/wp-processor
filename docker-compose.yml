@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  wp-mysql:
+    image: mysql:5.7.30
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+    volumes:
+      - type: volume
+        source: mysql
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+    networks:
+      - wp-manager
+  wp-processor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      RACK_ENV: development
+    volumes:
+      - type: bind
+        source: .env
+        target: /web/.env
+    networks:
+      - wp-manager
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "1080:80"
+      - "25"
+    environment:
+      - MAILDEV_SMTP_PORT=1025
+    networks:
+      - wp-manager
+    restart: always
+
+networks:
+  wp-manager:
+   external: true
+
+volumes:
+  mysql:

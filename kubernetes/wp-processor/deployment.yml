@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wp-processor
+  namespace: wp-manager
+  labels:
+    app: wp-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wp-processor
+  template:
+    metadata:
+      labels:
+        app: wp-processor
+
+    spec:
+      serviceAccountName: wp-processor
+      automountServiceAccountToken: true
+      volumes:
+        - name: env
+          secret:
+            secretName: wp-processor
+            items:
+              - key: env
+                path: .env
+      containers:
+        - name: wp-manager
+          image: dzirg44/wp-processor:v0.0.3
+          env:
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: "0"
+          volumeMounts:
+            - name: env
+              mountPath: /web/.env
+              subPath: .env
+              readOnly: true
